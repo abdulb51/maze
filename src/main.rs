@@ -157,8 +157,23 @@ const MOVE_SPEED: f32 = 220.0;
     let mut spike_x = 0.0;
     let mut spike_y = 0.0;
 
+ let mut spike_pos = img_spike.pos();
+    
     loop {
         clear_background(WHITE);
+
+
+if spike_pos.x == 300.0 && spike_pos.y == 260.0 {
+            spike_x = 1.0;
+            spike_y = 0.0;
+        }
+
+        spike_pos.y += spike_y;
+        spike_pos.x += spike_x;
+        img_spike.set_position(spike_pos);
+
+
+
 
 
 // Direction to move in
