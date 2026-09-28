@@ -138,36 +138,26 @@ async fn main() {
             keys = 1;
         }
 
-        if check_collision(&img_subaru, &img_key2, 1) {
-            keys = 2;
-        }
-println! ("{}", keys);
-        if keys >= 2 {
-            draw_key1 = false;
-            draw_key2 = false;
-        } 
-        
-        else if keys == 1 {
-            draw_key1 = true;
-            draw_key2 = false;
-        } 
-        
-        else {
-            draw_key1 = true;
-            draw_key2 = true;
-        }
+    if check_collision(&img_subaru, &img_key2, 1) {
+        keys += 1;
+       img_key2.clear();
+    }
 
-        if check_collision(&img_subaru, &img_lock1, 1) && keys >= 1 {
-            img_lock1.clear();
-        }
+    if check_collision(&img_subaru, &img_lock1, 1) && keys >= 1 {
+        img_lock1.clear();  
+    }
 
-        if check_collision(&img_subaru, &img_lock1, 1) {
-            img_subaru.set_x(old_pos.x); // Undo if collision happens
-        }
+    
+ if check_collision(&img_subaru, &img_lock1, 1) {
+  img_subaru.set_x(old_pos.x); // Undo if collision happens
+}
+    
 
-        if check_collision(&img_subaru, &img_lock1, 1) {
-            img_subaru.set_y(old_pos.y); // Undo if collision happens
-        }
+if check_collision(&img_subaru, &img_lock1, 1)  {
+img_subaru.set_y(old_pos.y); // Undo if collision happens
+ }
+    
+
 
         if check_collision(&img_subaru, &img_lock2, 1) && keys >= 2 {
             img_lock2.clear();
@@ -181,67 +171,9 @@ println! ("{}", keys);
             img_subaru.set_y(old_pos.y); // Undo if collision happens
         }
 
-        let mut spikeball_pos = img_spikeball.pos();
 
-        if spikeball_pos.x == 0.0 && spikeball_pos.y == 0.0 {
-            spikeball_x = 0.0;
-            spikeball_y = 1.0;
-        }
 
-        if spikeball_pos.x == 0.0 && spikeball_pos.y == 250.0 {
-            spikeball_x = 0.0;
-            spikeball_y = -1.0;
-        }
-        spikeball_pos.y += spikeball_y;
-        spikeball_pos.x += spikeball_x;
-        img_spikeball.set_position(spikeball_pos);
 
-        let mut spike_pos = img_spike.pos();
-
-        if spike_pos.x == 0.0 && spike_pos.y == 0.0 {
-            spike_x = 0.0;
-            spike_y = 2.0;
-        }
-
-        if spike_pos.x == 0.0 && spike_pos.y == 400.0 {
-            spike_x = 0.0;
-            spike_y = -2.0;
-        }
-        spike_pos.y += spike_y;
-        spike_pos.x += spike_x;
-        img_spike.set_position(spike_pos);
-
-        //come back to this
-        // if check_collision(&img_subaru, &img_spike, 1) {
-        //     img_subaru.set_x(55.0); // KILL if collision happens
-        // }
-
-        // if check_collision(&img_subaru, &img_spike, 1) {
-        //     img_subaru.set_y(405.0); // KILL if collision happens
-        // }
-
-        // //come back to this
-        // if check_collision(&img_subaru, &img_spikeball, 1) {
-
-        //     img_subaru.set_x( img_subaru.get_x() - 30.0); // KILL if collision happens
-        // }
-
-        if check_collision(&img_subaru, &img_trophy, 1) {
-            img_subaru.set_x(55.0);
-            img_subaru.set_y(405.0);
-
-        keys = 0;
-        }
-
-        if draw_key1 {
-            img_key1.draw();
-        }
-        if draw_key2 {
-            img_key2.draw();
-        }
-        img_trophy.draw();
-        img_spikeball.draw();
-        img_spike.draw();
         img_maze.draw();
         img_lock1.draw();
         img_lock2.draw();
