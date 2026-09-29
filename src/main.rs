@@ -141,36 +141,35 @@ async fn main() {
         if check_collision(&img_subaru, &img_key2, 1) {
             keys = 2;
         }
-println! ("{}", keys);
+        println!("{}", keys);
         if keys >= 2 {
             draw_key1 = false;
             draw_key2 = false;
-        } 
-        
-        else if keys == 1 {
+        } else if keys == 1 {
             draw_key1 = false;
             draw_key2 = true;
-        } 
-        
-        else {
+        } else {
             draw_key1 = true;
             draw_key2 = true;
         }
 
-        if check_collision(&img_subaru, &img_lock1, 1) && (keys == 1) {
-         draw_lock1 = false;
-        }
-
-        
-
+        if draw_lock1 && check_collision(&img_subaru, &img_lock1, 1) {
+            if keys == 1 {
+                draw_lock1 = false; // unlocked
+                println!("touchmaxxed")
+            } else {
+                img_subaru.set_x(old_pos.x);
+            } // Undo if collision happens
+        };
 
         if check_collision(&img_subaru, &img_lock1, 1) {
             img_subaru.set_x(old_pos.x); // Undo if collision happens
         }
 
-        if check_collision(&img_subaru, &img_lock1, 1) {
-            img_subaru.set_y(old_pos.y); // Undo if collision happens
-        }
+        //back to this
+        // if check_collision(&img_subaru, &img_lock1, 1) {
+        //     img_subaru.set_y(old_pos.y); // Undo if collision happens
+        // }
 
         if check_collision(&img_subaru, &img_lock2, 1) && keys >= 2 {
             img_lock2.clear();
@@ -225,21 +224,20 @@ println! ("{}", keys);
 
         //come back to this
         if check_collision(&img_subaru, &img_spikeball, 1) {
-
-            img_subaru.set_x( img_subaru.get_x() - 30.0); // KILL if collision happens
+            img_subaru.set_x(img_subaru.get_x() - 30.0); // KILL if collision happens
         }
 
         if check_collision(&img_subaru, &img_trophy, 1) {
             img_subaru.set_x(55.0);
             img_subaru.set_y(405.0);
 
-        keys = 0;
+            keys = 0;
         }
 
         if draw_key1 == true {
             img_key1.draw();
         }
-        
+
         if draw_key2 == true {
             img_key2.draw();
         }
@@ -250,7 +248,7 @@ println! ("{}", keys);
         if draw_lock2 == true {
             img_lock2.draw();
         }
-        
+
         img_trophy.draw();
         img_spikeball.draw();
         img_spike.draw();
