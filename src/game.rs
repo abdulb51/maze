@@ -90,6 +90,19 @@ clear_background(WHITE);
 
         // Normalize the movement to prevent faster diagonal movement
         if move_dir.length() > 0.0 {
+            move_dir.x -= 1.0;
+            img_subaru.set_preload(tm.get_preload("assets/subaruflip.png").unwrap());
+        }
+        if is_key_down(KeyCode::Down) || is_key_down(KeyCode::S) {
+            move_dir.y += 1.0;
+        }
+        if is_key_down(KeyCode::Up) || is_key_down(KeyCode::W) {
+            move_dir.y -= 1.0;
+        }
+
+        // Normalize the movement to prevent faster diagonal movement
+        if move_dir.length() > 0.0 {
+            move_dir = move_dir.normalize();
             move_dir = move_dir.normalize();
         }
 
@@ -122,7 +135,7 @@ clear_background(WHITE);
         if check_collision(&img_subaru, &img_key2, 1) {
             keys = 2;
         }
-        println!("{}", keys);
+       
         if keys >= 2 {
             img_key1.clear();
             img_key2.clear();
@@ -222,7 +235,6 @@ clear_background(WHITE);
         img_lock2.draw();
         img_subaru.draw();
 
-        draw_grid(50.0, RED);
         next_frame().await;
     }
 }
