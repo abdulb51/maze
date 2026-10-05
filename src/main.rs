@@ -6,6 +6,8 @@ Program Details: <maze game>
 
 mod ui;
 mod utils;
+mod custom;
+
 
 mod game;
 mod win;

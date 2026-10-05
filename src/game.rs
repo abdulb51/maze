@@ -5,8 +5,10 @@ use crate::ui::grid::draw_grid;
 use crate::ui::still_image::StillImage;
 use crate::utils::collision::check_collision;
 use crate::utils::preload_image::TextureManager;
+use crate::custom::player::Player;
 use macroquad::input::KeyCode;
 use macroquad::prelude::*;
+
 
 pub async fn run() -> String {
   
@@ -37,7 +39,16 @@ pub async fn run() -> String {
         1.0,    // Normal zoom (100%)
     );
 
-    let mut img_subaru = StillImage::from_preload(tm.get_preload("assets/subaru.png").unwrap(), 150.0, 150.0, 55.0, 405.0, true, 1.0);
+    
+
+    let mut player = Player::new(
+         "assets/subaru.png", 
+         55.0, 
+        405.0, 
+        150.0, 
+        150.0, 
+        true, 
+        1.0).await;
 
     let mut img_key1 = StillImage::from_preload(tm.get_preload("assets/key1.png").unwrap(), 1080.0, 1080.0, 0.0, 0.0, true, 1.0);
 
@@ -69,26 +80,23 @@ pub async fn run() -> String {
 
 clear_background(WHITE);
 
-        // Direction to move in
-        let mut move_dir = vec2(0.0, 0.0);
+player.keypress();
+player.move_player();
 
-        // Keyboard input
-        if is_key_down(KeyCode::Right) || is_key_down(KeyCode::D) {
-            move_dir.x += 1.0;
-            img_subaru.set_preload(tm.get_preload("assets/subaru.png").unwrap());
-        }
-        if is_key_down(KeyCode::Left) || is_key_down(KeyCode::A) {
-            move_dir.x -= 1.0;
-            img_subaru.set_preload(tm.get_preload("assets/subaruflip.png").unwrap());
-        }
-        if is_key_down(KeyCode::Down) || is_key_down(KeyCode::S) {
-            move_dir.y += 1.0;
-        }
-        if is_key_down(KeyCode::Up) || is_key_down(KeyCode::W) {
-            move_dir.y -= 1.0;
-        }
+if player.move_dir.x !=0.0 {
 
-        // Normalize the movement to prevent faster diagonal movement
+if check_collision(player.get_image(), &maze, 0){
+    player.move_back_x();
+}
+
+if check_collision(player.get_image(), &maze, 1){
+    player.move_back_y();
+}
+
+}
+
+      /* 
+       // Normalize the movement to prevent faster diagonal movement
         if move_dir.length() > 0.0 {
             move_dir.x -= 1.0;
             img_subaru.set_preload(tm.get_preload("assets/subaruflip.png").unwrap());
@@ -222,7 +230,7 @@ clear_background(WHITE);
         if check_collision(&img_subaru, &img_trophy, 1) {
           return "win".to_string();
         }
-
+*/
         img_key1.draw();
         img_key2.draw();
         img_lock1.draw();
@@ -233,8 +241,7 @@ clear_background(WHITE);
         img_maze.draw();
         img_lock1.draw();
         img_lock2.draw();
-        img_subaru.draw();
-
+        player.get_image().draw();
         next_frame().await;
     }
 }
