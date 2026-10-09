@@ -11,7 +11,7 @@ pub async fn run() -> String {
         
         Press SPACE to start again.
         Press ESC to End
-        ", 20.0, 40.0, 30.0, WHITE);
+        ", 500.0, 500.0, 30.0, WHITE);
 
         if is_key_pressed(KeyCode::Space) {
             return "start".to_string();
